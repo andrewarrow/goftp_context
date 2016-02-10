@@ -26,7 +26,7 @@ type Driver interface {
 	// params  - path, function on file or subdir found
 	// returns - error
 	//           path
-	ListDir(string, func(FileInfo) error) error
+	ListDir(string, string, func(FileInfo) error) error
 
 	// params  - path
 	// returns - true if the directory was deleted

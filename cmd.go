@@ -368,7 +368,7 @@ func (cmd commandList) Execute(conn *Conn, param string) {
 		return
 	}
 	var files []FileInfo
-	err = conn.driver.ListDir(path, func(f FileInfo) error {
+	err = conn.driver.ListDir(conn.user, path, func(f FileInfo) error {
 		files = append(files, f)
 		return nil
 	})
