@@ -1015,7 +1015,7 @@ func (cmd commandStor) Execute(conn *Conn, param string) {
 		conn.appendData = false
 	}()
 
-	bytes, err := conn.driver.PutFile(targetPath, conn.dataConn, conn.appendData)
+	bytes, err := conn.driver.PutFile(conn.user, targetPath, conn.dataConn, conn.appendData)
 	if err == nil {
 		msg := "OK, received " + strconv.Itoa(int(bytes)) + " bytes"
 		conn.writeMessage(226, msg)

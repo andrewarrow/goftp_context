@@ -50,5 +50,5 @@ type Driver interface {
 
 	// params  - desination path, an io.Reader containing the file data
 	// returns - true if the data was successfully persisted
-	PutFile(string, io.Reader, bool) (int64, error)
+	PutFile(string, string, io.Reader, bool) (int64, error)
 }
