@@ -174,6 +174,11 @@ func (Conn *Conn) GetDataConn() DataSocket {
 	return Conn.dataConn
 }
 
+func (Conn *Conn) CloseDataConn() {
+	Conn.dataConn.Close()
+	Conn.dataConn = nil
+}
+
 func (Conn *Conn) sendOutofBandDataWriter(data io.ReadCloser) error {
 	Conn.lastFilePos = 0
 	bytes, err := io.Copy(Conn.dataConn, data)
