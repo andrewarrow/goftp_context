@@ -170,8 +170,8 @@ func (Conn *Conn) sendOutofbandData(data []byte) {
 	Conn.writeMessage(226, message)
 }
 
-func (Conn Conn) GetConn() Conn {
-	return Conn
+func (Conn *Conn) GetDataConn() DataSocket {
+	return Conn.dataConn
 }
 
 func (Conn *Conn) sendOutofBandDataWriter(data io.ReadCloser) error {
