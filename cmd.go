@@ -247,7 +247,8 @@ func (cmd commandDele) Execute(conn *Conn, param string) {
 	path := conn.buildPath(param)
 	err := conn.driver.DeleteFile(path)
 	if err == nil {
-		conn.writeMessage(250, "File deleted")
+		//conn.writeMessage(250, "File deleted")
+		conn.writeMessage(502, "Command not implemented")
 	} else {
 		conn.writeMessage(550, fmt.Sprintln("File delete failed:", err))
 	}
@@ -482,7 +483,8 @@ func (cmd commandMkd) Execute(conn *Conn, param string) {
 	path := conn.buildPath(param)
 	err := conn.driver.MakeDir(path)
 	if err == nil {
-		conn.writeMessage(257, "Directory created")
+		//conn.writeMessage(257, "Directory created")
+		conn.writeMessage(502, "Command not implemented")
 	} else {
 		conn.writeMessage(550, fmt.Sprintln("Action not taken:", err))
 	}
@@ -785,7 +787,8 @@ func (cmd commandRnto) Execute(conn *Conn, param string) {
 	}()
 
 	if err == nil {
-		conn.writeMessage(250, "File renamed")
+		//conn.writeMessage(250, "File renamed")
+		conn.writeMessage(502, "Command not implemented")
 	} else {
 		conn.writeMessage(550, fmt.Sprintln("Action not taken", err))
 	}
@@ -811,7 +814,8 @@ func (cmd commandRmd) Execute(conn *Conn, param string) {
 	path := conn.buildPath(param)
 	err := conn.driver.DeleteDir(path)
 	if err == nil {
-		conn.writeMessage(250, "Directory deleted")
+		//conn.writeMessage(250, "Directory deleted")
+		conn.writeMessage(502, "Command not implemented")
 	} else {
 		conn.writeMessage(550, fmt.Sprintln("Directory delete failed:", err))
 	}
