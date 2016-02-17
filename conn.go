@@ -170,6 +170,10 @@ func (Conn *Conn) sendOutofbandData(data []byte) {
 	Conn.writeMessage(226, message)
 }
 
+func (Conn Conn) GetConn() Conn {
+	return Conn
+}
+
 func (Conn *Conn) sendOutofBandDataWriter(data io.ReadCloser) error {
 	Conn.lastFilePos = 0
 	bytes, err := io.Copy(Conn.dataConn, data)
