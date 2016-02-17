@@ -47,6 +47,7 @@ type Driver interface {
 	// params  - path
 	// returns - a string containing the file data to send to the client
 	GetFile(string, string, int64) (int64, io.ReadCloser, error)
+	ServeFileToSocket(string, string, *Conn) error
 
 	// params  - desination path, an io.Reader containing the file data
 	// returns - true if the data was successfully persisted

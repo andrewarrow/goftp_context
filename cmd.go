@@ -707,11 +707,8 @@ func (cmd commandRetr) Execute(conn *Conn, param string) {
 	defer func() {
 		conn.lastFilePos = 0
 	}()
-	bytes, data, err := conn.driver.GetFile(conn.user, path, conn.lastFilePos)
-	if err == nil {
-		conn.writeMessage(150, fmt.Sprintf("Data transfer starting %v bytes", bytes))
-		err = conn.sendOutofBandDataWriter(data)
-	} else {
+	err := conn.driver.ServeFileToSocket(conn.user, path, conn)
+	if err != nil {
 		conn.writeMessage(551, "File not available")
 	}
 }
