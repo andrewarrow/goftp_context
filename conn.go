@@ -31,7 +31,7 @@ type Conn struct {
 	reqUser       string
 	user          string
 	renameFrom    string
-	lastFilePos   int64
+	LastFilePos   int64
 	appendData    bool
 }
 
@@ -180,7 +180,7 @@ func (Conn *Conn) CloseDataConn() {
 }
 
 func (Conn *Conn) sendOutofBandDataWriter(data io.ReadCloser) error {
-	Conn.lastFilePos = 0
+	Conn.LastFilePos = 0
 	bytes, err := io.Copy(Conn.dataConn, data)
 	if err != nil {
 		Conn.dataConn.Close()

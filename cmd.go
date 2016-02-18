@@ -707,7 +707,7 @@ func (cmd commandRetr) RequireAuth() bool {
 func (cmd commandRetr) Execute(conn *Conn, param string) {
 	path := conn.buildPath(param)
 	defer func() {
-		conn.lastFilePos = 0
+		conn.LastFilePos = 0
 	}()
 	err := conn.driver.ServeFileToSocket(conn.user, path, conn)
 	if err != nil {
@@ -731,7 +731,7 @@ func (cmd commandRest) RequireAuth() bool {
 
 func (cmd commandRest) Execute(conn *Conn, param string) {
 	var err error
-	conn.lastFilePos, err = strconv.ParseInt(param, 10, 64)
+	conn.LastFilePos, err = strconv.ParseInt(param, 10, 64)
 	if err != nil {
 		conn.writeMessage(551, "File not available")
 		return
@@ -739,7 +739,7 @@ func (cmd commandRest) Execute(conn *Conn, param string) {
 
 	conn.appendData = true
 
-	conn.writeMessage(350, fmt.Sprintln("Start transfer from", conn.lastFilePos))
+	conn.writeMessage(350, fmt.Sprintln("Start transfer from", conn.LastFilePos))
 }
 
 // commandRnfr responds to the RNFR FTP command. It's the first of two commands
