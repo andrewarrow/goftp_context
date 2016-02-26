@@ -112,7 +112,20 @@ func (cmd commandAppe) RequireAuth() bool {
 
 func (cmd commandAppe) Execute(conn *Conn, param string) {
 	conn.appendData = true
-	conn.writeMessage(202, "Obsolete")
+	targetPath := conn.buildPath(param)
+	conn.writeMessage(150, "Accepted data connection")
+
+	defer func() {
+		conn.appendData = false
+	}()
+
+	bytes, err := conn.driver.PutFile(conn.user, targetPath, conn.dataConn, conn.appendData)
+	if err == nil {
+		msg := "OK, received " + strconv.Itoa(int(bytes)) + " bytes"
+		conn.writeMessage(226, msg)
+	} else {
+		conn.writeMessage(450, fmt.Sprintln("error during transfer:", err))
+	}
 }
 
 type commandOpts struct{}
