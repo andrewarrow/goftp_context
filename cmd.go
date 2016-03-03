@@ -124,7 +124,7 @@ func (cmd commandAppe) Execute(conn *Conn, param string) {
 		msg := "OK, received " + strconv.Itoa(int(bytes)) + " bytes"
 		conn.writeMessage(226, msg)
 	} else {
-		conn.writeMessage(450, fmt.Sprintln("error during transfer:", err))
+		conn.writeMessage(550, fmt.Sprintln("error during transfer:", err))
 		conn.CloseDataConn()
 	}
 }
@@ -1035,7 +1035,7 @@ func (cmd commandStor) Execute(conn *Conn, param string) {
 		msg := "OK, received " + strconv.Itoa(int(bytes)) + " bytes"
 		conn.writeMessage(226, msg)
 	} else {
-		conn.writeMessage(450, fmt.Sprintln("error during transfer:", err))
+		conn.writeMessage(550, fmt.Sprintln("error during transfer:", err))
 		conn.CloseDataConn()
 	}
 }
