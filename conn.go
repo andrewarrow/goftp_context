@@ -162,10 +162,20 @@ func (Conn *Conn) buildPath(filename string) (fullPath string) {
 func (Conn *Conn) sendOutofbandData(data []byte) {
 	bytes := len(data)
 	if Conn.dataConn != nil {
+		fmt.Println("XX1 - attempt close")
+		fmt.Println("XX2 - ", Conn.dataConn.Port())
 		Conn.dataConn.Write(data)
-		Conn.dataConn.Close()
+		c_err := Conn.dataConn.Close()
+		if c_err != nil {
+			fmt.Println("WE GOT ERROR TRYING TO CLOSE CVX: ", c_err.Error())
+		} else {
+			fmt.Println("CX CLOSED")
+		}
 		Conn.dataConn = nil
+	} else {
+		fmt.Println("XX2 - attempt close did not happen")
 	}
+
 	message := "Closing data connection, sent " + strconv.Itoa(bytes) + " bytes"
 	Conn.writeMessage(226, message)
 }

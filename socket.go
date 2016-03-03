@@ -74,13 +74,14 @@ func (socket *ftpActiveSocket) Close() error {
 }
 
 type ftpPassiveSocket struct {
-	conn    *net.TCPConn
-	port    int
-	host    string
-	ingress chan []byte
-	egress  chan []byte
-	logger  *Logger
-	wg      sync.WaitGroup
+	conn     *net.TCPConn
+	listener *net.TCPListener
+	port     int
+	host     string
+	ingress  chan []byte
+	egress   chan []byte
+	logger   *Logger
+	wg       sync.WaitGroup
 }
 
 func newPassiveSocket(host string, logger *Logger) (DataSocket, error) {
@@ -119,10 +120,14 @@ func (socket *ftpPassiveSocket) Write(p []byte) (n int, err error) {
 
 func (socket *ftpPassiveSocket) Close() error {
 	//socket.logger.Print("closing passive data socket")
+	var e error
 	if socket.conn != nil {
-		return socket.conn.Close()
+		e = socket.conn.Close()
 	}
-	return nil
+	if socket.listener != nil {
+		e = socket.listener.Close()
+	}
+	return e
 }
 
 func (socket *ftpPassiveSocket) GoListenAndServe() (err error) {
@@ -145,6 +150,7 @@ func (socket *ftpPassiveSocket) GoListenAndServe() (err error) {
 	}
 
 	socket.port = port
+	socket.listener = listener
 	socket.wg.Add(1)
 	go func() {
 		tcpConn, err := listener.AcceptTCP()
